@@ -19,7 +19,7 @@ public class Menu : WindowServantSP
         UIHelper.registEvent(gameObject, "online_", onClickOnline);
         UIHelper.registEvent(gameObject, "replay_", onClickReplay);
         UIHelper.registEvent(gameObject, "single_", Program.gugugu);
-        UIHelper.registEvent(gameObject, "ai_", Program.gugugu);
+        UIHelper.registEvent(gameObject, "ai_", onClickAI);
         UIHelper.registEvent(gameObject, "exit_", onClickExit);
         UIHelper.registEvent(gameObject, "download_", onClickDownload);
         UIHelper.getByName<UILabel>(gameObject, "version_").text = "YGOPro2 Android " + Program.GAME_VERSION;
