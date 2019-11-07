@@ -9,7 +9,7 @@ public class Ocgcore : ServantWithCardDescription
 {
     public enum Condition
     {
-        N=0,
+        N = 0,
         duel = 1,
         watch = 2,
         record = 3,
@@ -123,7 +123,7 @@ public class Ocgcore : ServantWithCardDescription
         float real = (Program.fieldSize - 1) * 0.9f + 1f;
         if ((p.location & (UInt32)CardLocation.Deck) > 0)
         {
-            if (p.controller==0)    
+            if (p.controller == 0)
             {
                 return_value = new Vector3(14.65f * real, 0, -14.6f);
             }
@@ -202,7 +202,7 @@ public class Ocgcore : ServantWithCardDescription
         if ((p.location & (UInt32)CardLocation.MonsterZone) > 0)
         {
             UInt32 realIndex = p.sequence;
-            if (p.controller==0)    
+            if (p.controller == 0)
             {
                 realIndex = p.sequence;
                 return_value.y = 0;
@@ -213,11 +213,13 @@ public class Ocgcore : ServantWithCardDescription
                 if (realIndex <= 4)
                 {
                     realIndex = 4 - p.sequence;
-                }else
+                }
+                else
                 if (realIndex == 5)
                 {
                     realIndex = 6;
-                }else
+                }
+                else
                 if (realIndex == 6)
                 {
                     realIndex = 5;
@@ -225,7 +227,7 @@ public class Ocgcore : ServantWithCardDescription
                 return_value.y = 0;
                 return_value.z = 5.65f * real;
             }
-            switch (realIndex)  
+            switch (realIndex)
             {
                 case 0:
                     return_value.x = -10.1f;
@@ -269,11 +271,13 @@ public class Ocgcore : ServantWithCardDescription
                     if (realIndex <= 4)
                     {
                         realIndex = 4 - p.sequence;
-                    }else
+                    }
+                    else
                     if (realIndex == 7)
                     {
                         realIndex = 6;
-                    }else
+                    }
+                    else
                     if (realIndex == 6)
                     {
                         realIndex = 7;
@@ -509,9 +513,9 @@ public class Ocgcore : ServantWithCardDescription
                 break;
             }
         }
-        if (keys.Count>0)   
+        if (keys.Count > 0)
         {
-            if (keys[0]!= currentMessageIndex)  
+            if (keys[0] != currentMessageIndex)
             {
                 for (int i = 0; i < keys.Count; i++)
                 {
@@ -659,7 +663,7 @@ public class Ocgcore : ServantWithCardDescription
         keysTempCount = keys.Count;
     }
 
-    void on_rush()  
+    void on_rush()
     {
         specialLR();
         while (Packages.Count > 0)
@@ -673,7 +677,7 @@ public class Ocgcore : ServantWithCardDescription
             {
                 UnityEngine.Debug.Log(e);
             }
-            if (Packages.Count==1)  
+            if (Packages.Count == 1)
             {
                 try
                 {
@@ -722,7 +726,7 @@ public class Ocgcore : ServantWithCardDescription
                 theWorldIndex = currentMessageIndex;
             }
         }
-        if (condition== Condition.record)   
+        if (condition == Condition.record)
         {
             return;
         }
@@ -752,11 +756,19 @@ public class Ocgcore : ServantWithCardDescription
         TcpHelper.SaveRecord();
         if (returnServant != null)
         {
+            Debug.Log("Goodbye!!");
+
+            Vuforia.CameraDevice.Instance.Stop();
+            Program.camera_game_ar.transform.parent.gameObject.SetActive(false);
+            Program.camera_game_main.gameObject.SetActive(true);
+            //            Vuforia.VuforiaRuntime.Instance.Deinit();
+
             Program.I().shiftToServant(returnServant);
         }
     }
 
-    public void setDefaultReturnServant() {
+    public void setDefaultReturnServant()
+    {
         returnServant = Program.I().selectServer;
     }
 
@@ -849,7 +861,7 @@ public class Ocgcore : ServantWithCardDescription
     public bool paused = false;
 
     float lastSize = 0;
-    float lastAlpha = 0;    
+    float lastAlpha = 0;
 
     public List<GameObject> allChainPanelFixedContainer = new List<GameObject>();
 
@@ -874,14 +886,14 @@ public class Ocgcore : ServantWithCardDescription
             {
                 GameObject currentGameobject = allChainPanelFixedContainer[i];
                 List<GameObject> toList = null;
-                for (int a = 0; a < groups.Count; a++)  
+                for (int a = 0; a < groups.Count; a++)
                 {
                     if (UIHelper.getScreenDistance(groups[a][0], currentGameobject) < 5f * ((float)Screen.height) / 700f)
                     {
                         toList = groups[a];
                     }
                 }
-                if (toList==null)   
+                if (toList == null)
                 {
                     toList = new List<GameObject>();
                     groups.Add(toList);
@@ -890,7 +902,7 @@ public class Ocgcore : ServantWithCardDescription
             }
             for (int a = 0; a < groups.Count; a++)
             {
-                for (int b = 0; b < groups[a].Count; b++)   
+                for (int b = 0; b < groups[a].Count; b++)
                 {
                     groups[a][b].transform.localPosition = new Vector3(0.35f * (groups[a].Count - b - 1), 0, -0.05f * b - 0.2f);
                 }
@@ -950,16 +962,16 @@ public class Ocgcore : ServantWithCardDescription
                 Program.I().book.show();
             }
         }
-        if (Input.GetKeyDown(KeyCode.Tab))  
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (Program.I().book.isShowed==false)
+            if (Program.I().book.isShowed == false)
             {
                 Program.I().book.show();
             }
         }
         if (Input.GetKeyUp(KeyCode.Tab))
         {
-            if (Program.I().book.isShowed==true)
+            if (Program.I().book.isShowed == true)
             {
                 Program.I().book.hide();
             }
@@ -1045,14 +1057,14 @@ public class Ocgcore : ServantWithCardDescription
         }
     }
 
-    string winReason="";
+    string winReason = "";
 
     bool ifMessageImportant(Package package)
     {
         BinaryReader r = package.Data.reader;
         r.BaseStream.Seek(0, 0);
         GameMessage msg = (GameMessage)Packages[0].Fuction;
-        switch (msg)    
+        switch (msg)
         {
             case GameMessage.Start:
             case GameMessage.Win:
@@ -1142,7 +1154,7 @@ public class Ocgcore : ServantWithCardDescription
                 int hint0 = r.ReadInt32();
                 int hint1 = r.ReadInt32();
                 bool ignore = false;
-                if (forced == 0)    
+                if (forced == 0)
                 {
                     var condition = gameInfo.get_condition();
                     if (condition == gameInfo.chainCondition.no)
@@ -1182,7 +1194,7 @@ public class Ocgcore : ServantWithCardDescription
                         }
                     }
                 }
-                if (ignore)      
+                if (ignore)
                 {
                     return false;
                 }
@@ -1220,13 +1232,20 @@ public class Ocgcore : ServantWithCardDescription
 
     public IEnumerator BGMHandler()
     {
-        if (Program.I().room.duelEnded) {
+        if (Program.I().room.duelEnded)
+        {
             yield break;
-        } else if (result == duelResult.disLink && life_0 >= life_1 * 2) {
+        }
+        else if (result == duelResult.disLink && life_0 >= life_1 * 2)
+        {
             BGMController.Instance.StartBGM(BGMController.BGMType.advantage);
-        } else if (result == duelResult.disLink && life_1 >= life_0 * 2) {
+        }
+        else if (result == duelResult.disLink && life_1 >= life_0 * 2)
+        {
             BGMController.Instance.StartBGM(BGMController.BGMType.disadvantage);
-        } else if(result == duelResult.disLink) {
+        }
+        else if (result == duelResult.disLink)
+        {
             BGMController.Instance.StartBGM(BGMController.BGMType.duel);
         }
 
@@ -1236,7 +1255,7 @@ public class Ocgcore : ServantWithCardDescription
     //handle messages
     enum autoForceChainHandlerType
     {
-        autoHandleAll,manDoAll,afterClickManDo
+        autoHandleAll, manDoAll, afterClickManDo
     }
     autoForceChainHandlerType autoForceChainHandler = autoForceChainHandlerType.manDoAll;
     bool deckReserved = false;
@@ -1578,7 +1597,7 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 catch (System.Exception e)
                 {
-                   // UnityEngine.Debug.Log(e);
+                    // UnityEngine.Debug.Log(e);
                 }
                 break;
             case GameMessage.UpdateCard:
@@ -1661,7 +1680,7 @@ public class Ocgcore : ServantWithCardDescription
                     }
                     else
                     {
-                       // printDuelLog("●" + InterString.Get("[?]被对方发动", UIHelper.getGPSstringName(card)));
+                        // printDuelLog("●" + InterString.Get("[?]被对方发动", UIHelper.getGPSstringName(card)));
                     }
                 }
                 break;
@@ -2053,7 +2072,7 @@ public class Ocgcore : ServantWithCardDescription
                 string valstring = GameStringManager.get(pvalue);
                 if (ptype == 6)
                 {
-                    if (controller==0)  
+                    if (controller == 0)
                     {
                         printDuelLog(InterString.Get("我方状态：[?]", valstring));
                     }
@@ -2115,7 +2134,7 @@ public class Ocgcore : ServantWithCardDescription
                     }
                 }
                 break;
-           case GameMessage.Hint:
+            case GameMessage.Hint:
                 Es_selectMSGHintType = r.ReadChar();
                 Es_selectMSGHintPlayer = localPlayer(r.ReadChar());
                 Es_selectMSGHintData = r.ReadInt32();
@@ -2188,8 +2207,8 @@ public class Ocgcore : ServantWithCardDescription
                 break;
             case GameMessage.NewPhase:
                 toDefaultHintLogical();
-                autoForceChainHandler =  autoForceChainHandlerType.manDoAll;
-               // keys.Insert(0, currentMessageIndex);
+                autoForceChainHandler = autoForceChainHandlerType.manDoAll;
+                // keys.Insert(0, currentMessageIndex);
                 ushort ph = r.ReadUInt16();
                 if (ph == 0x01)
                 {
@@ -2263,7 +2282,7 @@ public class Ocgcore : ServantWithCardDescription
                         card.set_code(code);
                         printDuelLog(InterString.Get("[ff0000]确认卡片：[?][-]", UIHelper.getGPSstringName(card, true)));
                         confirmedCards.Add("「" + UIHelper.getSuperName(card.get_data().Name, card.get_data().Id) + "」");
-                        if (confirmedCards.Count>=6)    
+                        if (confirmedCards.Count >= 6)
                         {
                             confirmedCards.RemoveAt(0);
                         }
@@ -2535,7 +2554,7 @@ public class Ocgcore : ServantWithCardDescription
         p__.Data = new BinaryMaster();
         p__.Data.writer.WriteUnicode(name_0, 50);
         p__.Data.writer.WriteUnicode(name_0_tag, 50);
-        p__.Data.writer.WriteUnicode(name_0_c!=""? name_0_c: name_0, 50);
+        p__.Data.writer.WriteUnicode(name_0_c != "" ? name_0_c : name_0, 50);
         p__.Data.writer.WriteUnicode(name_1, 50);
         p__.Data.writer.WriteUnicode(name_1_tag, 50);
         p__.Data.writer.WriteUnicode(name_1_c != "" ? name_1_c : name_1, 50);
@@ -2566,7 +2585,7 @@ public class Ocgcore : ServantWithCardDescription
         return re;
     }
 
-    private int countLocationSequence(int player, CardLocation location_)  
+    private int countLocationSequence(int player, CardLocation location_)
     {
         int re = 0;
 
@@ -2748,7 +2767,7 @@ public class Ocgcore : ServantWithCardDescription
                     File.Move("replay/" + TcpHelper.lastRecordName + ".yrp3d", "replay/" + winCaculator.input.value + ".yrp3d");
                 }
             }
-            catch (Exception e)   
+            catch (Exception e)
             {
                 RMSshow_none(e.ToString());
             }
@@ -3559,7 +3578,7 @@ public class Ocgcore : ServantWithCardDescription
                         card.effects.Add(eff);
                     }
                 }
-                var chain_condition = gameInfo.get_condition(); 
+                var chain_condition = gameInfo.get_condition();
                 int handle_flag = 0;
                 if (forced == 0)
                 {
@@ -3666,7 +3685,7 @@ public class Ocgcore : ServantWithCardDescription
                     {
                         //有强制发动的卡 处理强制发动的卡--
                         handle_flag = 3;
-                        if (autoForceChainHandler== autoForceChainHandlerType.autoHandleAll)
+                        if (autoForceChainHandler == autoForceChainHandlerType.autoHandleAll)
                         {
                             handle_flag = 4;
                         }
@@ -3870,7 +3889,7 @@ public class Ocgcore : ServantWithCardDescription
                 destroy(waitObject, 0, false, true);
                 player = localPlayer(r.ReadByte());
                 r.ReadInt16();
-                if (Version1033b)   
+                if (Version1033b)
                 {
                     ES_min = r.ReadByte();
                 }
@@ -4032,101 +4051,101 @@ public class Ocgcore : ServantWithCardDescription
                             resp[1] = 0x8;
                             filter = (field >> 30) & 0x3;
                             pendulumZone = true;
-                        }*/ 
-                    for (int j=0; j<2; j++)
-                    {
-                        resp = new byte[3];
-                        pendulumZone = false;
-                        filter = 0;
-                        int field;
+                        }*/
+                        for (int j = 0; j < 2; j++)
+                        {
+                            resp = new byte[3];
+                            pendulumZone = false;
+                            filter = 0;
+                            int field;
 
-                        if (j==0)
-                        {
-                            resp[0] = (byte)player;
-                            field = _field & 0xffff;
-                        }
-                        else
-                        {
-                            resp[0] = (byte)(1 - player);
-                            field = _field >> 16;
-                        }
+                            if (j == 0)
+                            {
+                                resp[0] = (byte)player;
+                                field = _field & 0xffff;
+                            }
+                            else
+                            {
+                                resp[0] = (byte)(1 - player);
+                                field = _field >> 16;
+                            }
 
-                        if ((field & 0x7f) != 0)
-                        {
-                            resp[1] = 0x4;
-                            filter = field & 0x7f;
-                        }
-                        else if ((field & 0x1f00) != 0)
-                        {
-                            resp[1] = 0x8;
-                            filter = (field >> 8) & 0x1f;
-                        }
-                        else if ((field & 0xc000) != 0)
-                        {
-                            resp[1] = 0x8;
-                            filter = (field >> 14) & 0x3;
-                            pendulumZone = true;
-                        }
+                            if ((field & 0x7f) != 0)
+                            {
+                                resp[1] = 0x4;
+                                filter = field & 0x7f;
+                            }
+                            else if ((field & 0x1f00) != 0)
+                            {
+                                resp[1] = 0x8;
+                                filter = (field >> 8) & 0x1f;
+                            }
+                            else if ((field & 0xc000) != 0)
+                            {
+                                resp[1] = 0x8;
+                                filter = (field >> 14) & 0x3;
+                                pendulumZone = true;
+                            }
 
-                        if (filter == 0)
-                            continue;
+                            if (filter == 0)
+                                continue;
 
-                        if (!pendulumZone)
-                        {
-                            if ((filter & 0x4) != 0)
+                            if (!pendulumZone)
                             {
-                                resp[2] = 2;
-                                createPlaceSelector(resp);
-                            }
-                            if ((filter & 0x2) != 0)
-                            {
-                                resp[2] = 1;
-                                createPlaceSelector(resp);
-                            }
-                            if ((filter & 0x8) != 0)
-                            {
-                                resp[2] = 3;
-                                createPlaceSelector(resp);
-                            }
-                            if ((filter & 0x1) != 0)
-                            {
-                                resp[2] = 0;
-                                createPlaceSelector(resp);
-                            }
-                            if ((filter & 0x10) != 0)
-                            {
-                                resp[2] = 4;
-                                createPlaceSelector(resp);
-                            }
-                            if (resp[1] == 0x4)
-                            {
-                                if ((filter & 0x20) != 0)
+                                if ((filter & 0x4) != 0)
                                 {
-                                    resp[2] = 5;
+                                    resp[2] = 2;
                                     createPlaceSelector(resp);
                                 }
-                                if ((filter & 0x40) != 0)
+                                if ((filter & 0x2) != 0)
+                                {
+                                    resp[2] = 1;
+                                    createPlaceSelector(resp);
+                                }
+                                if ((filter & 0x8) != 0)
+                                {
+                                    resp[2] = 3;
+                                    createPlaceSelector(resp);
+                                }
+                                if ((filter & 0x1) != 0)
+                                {
+                                    resp[2] = 0;
+                                    createPlaceSelector(resp);
+                                }
+                                if ((filter & 0x10) != 0)
+                                {
+                                    resp[2] = 4;
+                                    createPlaceSelector(resp);
+                                }
+                                if (resp[1] == 0x4)
+                                {
+                                    if ((filter & 0x20) != 0)
+                                    {
+                                        resp[2] = 5;
+                                        createPlaceSelector(resp);
+                                    }
+                                    if ((filter & 0x40) != 0)
+                                    {
+                                        resp[2] = 6;
+                                        createPlaceSelector(resp);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if ((filter & 0x2) != 0)
+                                {
+                                    resp[2] = 7;
+                                    createPlaceSelector(resp);
+                                }
+                                if ((filter & 0x1) != 0)
                                 {
                                     resp[2] = 6;
                                     createPlaceSelector(resp);
                                 }
                             }
-                        }
-                        else
-                        {
-                            if ((filter & 0x2) != 0)
-                            {
-                                resp[2] = 7;
-                                createPlaceSelector(resp);
-                            }
-                            if ((filter & 0x1) != 0)
-                            {
-                                resp[2] = 6;
-                                createPlaceSelector(resp);
-                            }
-                        }
 
-                    }
+                        }
 
                     }
                     if (Es_selectMSGHintType == 3)
@@ -4265,29 +4284,29 @@ public class Ocgcore : ServantWithCardDescription
                     gps = r.ReadShortGPS();
                     card = GCS_cardGet(gps, false);
                     bool showC = false;
-                    if (gps.controller!=0)  
+                    if (gps.controller != 0)
                     {
                         showC = true;
                     }
                     else
                     {
-                        if (gps.location != (int)CardLocation.Hand)   
+                        if (gps.location != (int)CardLocation.Hand)
                         {
                             showC = true;
                         }
-                        if (Program.I().room.mode == 2) 
+                        if (Program.I().room.mode == 2)
                         {
                             showC = true;
                         }
                         if (condition != Condition.duel)
                         {
-                            if (InAI == false)  
+                            if (InAI == false)
                             {
                                 showC = true;
                             }
                         }
                     }
-                    if (showC)  
+                    if (showC)
                     {
                         if (card != null)
                         {
@@ -4316,7 +4335,7 @@ public class Ocgcore : ServantWithCardDescription
                             {
                                 if ((card.p.location & (UInt32)CardLocation.Hand) > 0)
                                 {
-                                    if (i==0)   
+                                    if (i == 0)
                                     {
                                         confirm(card);
                                         t2 += 50;
@@ -4348,7 +4367,7 @@ public class Ocgcore : ServantWithCardDescription
                     clearAllShowedB = true;
                     flagForTimeConfirm = true;
                     gameField.setHint(InterString.Get("请确认[?]张卡片。", t3.ToString()));
-                    if (inIgnoranceReplay()||inTheWorld())
+                    if (inIgnoranceReplay() || inTheWorld())
                     {
                         t2 = 0;
                         clearResponse();
@@ -4535,7 +4554,7 @@ public class Ocgcore : ServantWithCardDescription
                         GameObject mod = Program.I().mod_ocgcore_ss_spsummon_normal;
                         card.animationEffect(mod);
                     }
-                    card.animation_show_off( true);
+                    card.animation_show_off(true);
                 }
                 break;
             case GameMessage.Summoned:
@@ -4549,7 +4568,7 @@ public class Ocgcore : ServantWithCardDescription
                 if (card != null)
                 {
                     card.set_code(code);
-                    if (Program.I().setting.setting.Vspsum.value==true)
+                    if (Program.I().setting.setting.Vspsum.value == true)
                     {
                         GameObject mod = Program.I().mod_ocgcore_ss_summon_light;
                         if (GameStringHelper.differ(card.get_data().Attribute, (long)CardAttribute.Earth))
@@ -4629,7 +4648,7 @@ public class Ocgcore : ServantWithCardDescription
                             UIHelper.playSound("specialsummon", 1f);
                         }
                     }
-                    card.animation_show_off( true);
+                    card.animation_show_off(true);
                 }
                 break;
             case GameMessage.SpSummoned:
@@ -4649,7 +4668,7 @@ public class Ocgcore : ServantWithCardDescription
                         GameObject mod = Program.I().mod_ocgcore_ss_spsummon_normal;
                         card.animationEffect(mod);
                     }
-                    card.animation_show_off( true);
+                    card.animation_show_off(true);
                 }
                 break;
             case GameMessage.FlipSummoned:
@@ -4663,7 +4682,7 @@ public class Ocgcore : ServantWithCardDescription
                 {
                     card.set_code(code);
                     UIHelper.playSound("activate", 1);
-                    card.animation_show_off( false);
+                    card.animation_show_off(false);
                     if ((card.get_data().Type & (int)CardType.Monster) > 0)
                     {
                         if (Program.I().setting.setting.Vactm.value == true)
@@ -4693,7 +4712,7 @@ public class Ocgcore : ServantWithCardDescription
                             {
                                 mod = Program.I().mod_ocgcore_cs_mon_dark;
                             }
-                            mod.GetComponent<partical_scaler>().scale = 2f + Mathf.Clamp(card.get_data().Attack,0,3500) / 3000f * 5f;
+                            mod.GetComponent<partical_scaler>().scale = 2f + Mathf.Clamp(card.get_data().Attack, 0, 3500) / 3000f * 5f;
                             card.fast_decoration(mod);
                         }
                     }
@@ -4718,7 +4737,7 @@ public class Ocgcore : ServantWithCardDescription
                 Sleep(20);
                 break;
             case GameMessage.ChainSolved:
-                int id = r.ReadByte() - 1   ;
+                int id = r.ReadByte() - 1;
                 if (id < 0)
                 {
                     id = 0;
@@ -4844,7 +4863,7 @@ public class Ocgcore : ServantWithCardDescription
                         }
                     }
                 }
-                if (!pIN)  
+                if (!pIN)
                 {
                     Sleep(30);
                 }
@@ -4990,7 +5009,7 @@ public class Ocgcore : ServantWithCardDescription
                         }
                     }
                 }
-                RMSshow_none(card.get_data().Name + "  " + InterString.Get("增加指示物：[?]", name2)+" *"+count.ToString());
+                RMSshow_none(card.get_data().Name + "  " + InterString.Get("增加指示物：[?]", name2) + " *" + count.ToString());
                 Sleep(10);
                 break;
             case GameMessage.RemoveCounter:
@@ -5293,7 +5312,7 @@ public class Ocgcore : ServantWithCardDescription
                 player = localPlayer(r.ReadByte());
                 ES_searchCode.Clear();
                 count = r.ReadByte();
-                for (int i = 0; i < count; i++) 
+                for (int i = 0; i < count; i++)
                 {
                     int take = r.ReadInt32();
                     ES_searchCode.Add(take);
@@ -5486,10 +5505,10 @@ public class Ocgcore : ServantWithCardDescription
 
     void removeAttackHandler()
     {
-        shiftArrow(Vector3.zero,Vector3.zero,false,50);
+        shiftArrow(Vector3.zero, Vector3.zero, false, 50);
     }
 
-    private void removeSelectedAnimations() 
+    private void removeSelectedAnimations()
     {
         for (int i = 0; i < cardsInSelectAnimation.Count; i++)
         {
@@ -6082,7 +6101,7 @@ public class Ocgcore : ServantWithCardDescription
         }
     }
 
-    private bool queryCorrectOverSumList(List<gameCard> temp,int sumlevel)  
+    private bool queryCorrectOverSumList(List<gameCard> temp, int sumlevel)
     {
         int illusionCount = temp.Count - cardsMustBeSelected.Count;
         if (illusionCount < ES_min)
@@ -6176,7 +6195,7 @@ public class Ocgcore : ServantWithCardDescription
                 bool r = checkSum_process(selectIllusion, (int)ES_level - star - cards_remain_unselected[i].levelForSelect_1, cardsSelected.Count + 1);
                 if (!r && cards_remain_unselected[i].levelForSelect_1 != cards_remain_unselected[i].levelForSelect_2)
                 {
-                    r = checkSum_process(selectIllusion, (int)ES_level - star - cards_remain_unselected[i].levelForSelect_2,cardsSelected.Count + 1);
+                    r = checkSum_process(selectIllusion, (int)ES_level - star - cards_remain_unselected[i].levelForSelect_2, cardsSelected.Count + 1);
                 }
                 if (r)
                 {
@@ -6207,7 +6226,7 @@ public class Ocgcore : ServantWithCardDescription
         return cards_remain_unselected;
     }
 
-    bool checkSum_process(List<gameCard> cards_temp, int sum, int selectedCount)    
+    bool checkSum_process(List<gameCard> cards_temp, int sum, int selectedCount)
     {
         if (sum == 0)
         {
@@ -6434,7 +6453,7 @@ public class Ocgcore : ServantWithCardDescription
         placeSelectors.Clear();
     }
 
-    public void Sleep(int framsIn60)    
+    public void Sleep(int framsIn60)
     {
         int illustion = (int)(Program.TimePassed() + framsIn60 * 1000f / 60f);
         if (illustion > MessageBeginTime)
@@ -6601,7 +6620,7 @@ public class Ocgcore : ServantWithCardDescription
             var preLine = lines[lines.Count - 2];
             if (lastLine.Count == 1)
             {
-                if (preLine.Count > 0)   
+                if (preLine.Count > 0)
                 {
                     if (lastLine[0].p.controller == preLine[0].p.controller)
                     {
@@ -6645,22 +6664,22 @@ public class Ocgcore : ServantWithCardDescription
         List<gameCard> op_s = new List<gameCard>();
 
         for (int i = 0; i < cards.Count; i++) if (cards[i].gameObject.activeInHierarchy)
+            {
+                if (cards[i].p.controller == 1)
                 {
-                    if (cards[i].p.controller == 1)
+                    if ((cards[i].p.location & (UInt32)CardLocation.Overlay) == 0)
                     {
-                        if ((cards[i].p.location & (UInt32)CardLocation.Overlay) == 0)
+                        if ((cards[i].p.location & (UInt32)CardLocation.MonsterZone) > 0)
                         {
-                            if ((cards[i].p.location & (UInt32)CardLocation.MonsterZone) > 0)
-                            {
-                                op_m.Add(cards[i]);
-                            }
-                            if ((cards[i].p.location & (UInt32)CardLocation.SpellZone) > 0)
-                            {
-                                op_s.Add(cards[i]);
-                            }
+                            op_m.Add(cards[i]);
+                        }
+                        if ((cards[i].p.location & (UInt32)CardLocation.SpellZone) > 0)
+                        {
+                            op_s.Add(cards[i]);
                         }
                     }
                 }
+            }
         for (int m = 0; m < op_m.Count; m++)
         {
             if ((op_m[m].p.position & (UInt32)CardPosition.FaceUp) > 0)
@@ -6716,7 +6735,7 @@ public class Ocgcore : ServantWithCardDescription
 
         if (opM[1] != null)
         {
-            if (opM[5]!=null)
+            if (opM[5] != null)
             {
                 opM[5].isMinBlockMode = true;
             }
@@ -6755,7 +6774,7 @@ public class Ocgcore : ServantWithCardDescription
         }
 
 
-        gameCard[,] vvv = new gameCard[10,10];
+        gameCard[,] vvv = new gameCard[10, 10];
 
         for (int i = 0; i < cards.Count; i++) if (cards[i].gameObject.activeInHierarchy)
             {
@@ -6858,49 +6877,49 @@ public class Ocgcore : ServantWithCardDescription
                     if (curHang - 1 >= 0)
                         if (curLie - 1 >= 0)
                             if (vvv[curHang - 1, curLie - 1] != null)
-                    {
-                        gameCard card = vvv[curHang - 1, curLie - 1];
-                        if (card.p.controller == 0)
-                            if (card.get_data().HasLinkMarker(CardLinkMarker.TopRight))
-                                lighted = true;
-                        if (card.p.controller == 1)
-                            if (card.get_data().HasLinkMarker(CardLinkMarker.BottomLeft))
-                                lighted = true;
-                    }
+                            {
+                                gameCard card = vvv[curHang - 1, curLie - 1];
+                                if (card.p.controller == 0)
+                                    if (card.get_data().HasLinkMarker(CardLinkMarker.TopRight))
+                                        lighted = true;
+                                if (card.p.controller == 1)
+                                    if (card.get_data().HasLinkMarker(CardLinkMarker.BottomLeft))
+                                        lighted = true;
+                            }
 
-                        if (curLie - 1 >= 0)
-                            if (vvv[curHang, curLie - 1] != null)
-                    {
+                    if (curLie - 1 >= 0)
+                        if (vvv[curHang, curLie - 1] != null)
+                        {
                             gameCard card = vvv[curHang, curLie - 1];
-                        if (card.p.controller == 0)
-                            if (card.get_data().HasLinkMarker(CardLinkMarker.Right))
-                                lighted = true;
-                        if (card.p.controller == 1)
-                            if (card.get_data().HasLinkMarker(CardLinkMarker.Left))
-                                lighted = true;
-                    }
-                        if (curLie - 1 >= 0)
-                            if (vvv[curHang+1, curLie - 1] != null)
-                    {
+                            if (card.p.controller == 0)
+                                if (card.get_data().HasLinkMarker(CardLinkMarker.Right))
+                                    lighted = true;
+                            if (card.p.controller == 1)
+                                if (card.get_data().HasLinkMarker(CardLinkMarker.Left))
+                                    lighted = true;
+                        }
+                    if (curLie - 1 >= 0)
+                        if (vvv[curHang + 1, curLie - 1] != null)
+                        {
                             gameCard card = vvv[curHang + 1, curLie - 1];
-                        if (card.p.controller == 0)
-                            if (card.get_data().HasLinkMarker(CardLinkMarker.BottomRight))
-                                lighted = true;
-                        if (card.p.controller == 1)
-                            if (card.get_data().HasLinkMarker(CardLinkMarker.TopLeft))
-                                lighted = true;
-                    }
+                            if (card.p.controller == 0)
+                                if (card.get_data().HasLinkMarker(CardLinkMarker.BottomRight))
+                                    lighted = true;
+                            if (card.p.controller == 1)
+                                if (card.get_data().HasLinkMarker(CardLinkMarker.TopLeft))
+                                    lighted = true;
+                        }
                     if (curHang - 1 >= 0)
-                            if (vvv[curHang - 1, curLie] != null)
-                    {
+                        if (vvv[curHang - 1, curLie] != null)
+                        {
                             gameCard card = vvv[curHang - 1, curLie];
-                        if (card.p.controller == 0)
-                            if (card.get_data().HasLinkMarker(CardLinkMarker.Top))
-                                lighted = true;
-                        if (card.p.controller == 1)
-                            if (card.get_data().HasLinkMarker(CardLinkMarker.Bottom))
-                                lighted = true;
-                    }
+                            if (card.p.controller == 0)
+                                if (card.get_data().HasLinkMarker(CardLinkMarker.Top))
+                                    lighted = true;
+                            if (card.p.controller == 1)
+                                if (card.get_data().HasLinkMarker(CardLinkMarker.Bottom))
+                                    lighted = true;
+                        }
 
                     if (vvv[curHang + 1, curLie] != null)
                     {
@@ -6913,16 +6932,16 @@ public class Ocgcore : ServantWithCardDescription
                                 lighted = true;
                     }
                     if (curHang - 1 >= 0)
-                            if (vvv[curHang - 1, curLie + 1] != null)
-                    {
+                        if (vvv[curHang - 1, curLie + 1] != null)
+                        {
                             gameCard card = vvv[curHang - 1, curLie + 1];
-                        if (card.p.controller == 0)
-                            if (card.get_data().HasLinkMarker(CardLinkMarker.TopLeft))
-                                lighted = true;
-                        if (card.p.controller == 1)
-                            if (card.get_data().HasLinkMarker(CardLinkMarker.BottomRight))
-                                lighted = true;
-                    }
+                            if (card.p.controller == 0)
+                                if (card.get_data().HasLinkMarker(CardLinkMarker.TopLeft))
+                                    lighted = true;
+                            if (card.p.controller == 1)
+                                if (card.get_data().HasLinkMarker(CardLinkMarker.BottomRight))
+                                    lighted = true;
+                        }
 
                     if (vvv[curHang, curLie + 1] != null)
                     {
@@ -7000,7 +7019,7 @@ public class Ocgcore : ServantWithCardDescription
 
         for (int i = 0; i < linkMaskList.Count; i++)
         {
-            shift_effect(linkMaskList[i],Program.I().setting.setting.Vlink.value);
+            shift_effect(linkMaskList[i], Program.I().setting.setting.Vlink.value);
         }
 
         gameField.Update();
@@ -7095,7 +7114,7 @@ public class Ocgcore : ServantWithCardDescription
 
         //p effect
         gameField.relocatePnums(Program.I().setting.setting.Vpedium.value);
-        if (Program.I().setting.setting.Vpedium.value == true) 
+        if (Program.I().setting.setting.Vpedium.value == true)
         {
             List<gameCard> my_p_cards = new List<gameCard>();
 
@@ -7367,13 +7386,13 @@ public class Ocgcore : ServantWithCardDescription
                 }
             }
         camera_max = -3.5f - 15f * Program.fieldSize;
-        camera_min = nearest_z-0.5f;
+        camera_min = nearest_z - 0.5f;
         if (camera_min > camera_max)
         {
             camera_min = camera_max;
         }
 
-        if (InAI==false)    
+        if (InAI == false)
         {
             if (condition != Condition.duel)
             {
@@ -7416,7 +7435,7 @@ public class Ocgcore : ServantWithCardDescription
         animation_count(gameField.LOCATION_REMOVED_1, CardLocation.Removed, 1);
         gameField.realize();
         Program.notGo(gameInfo.realize);
-        Program.go(50,gameInfo.realize);
+        Program.go(50, gameInfo.realize);
         Program.notGo(Program.I().book.realize);
         Program.go(50, Program.I().book.realize);
         Program.I().cardDescription.realizeMonitor();
@@ -7533,7 +7552,7 @@ public class Ocgcore : ServantWithCardDescription
         }
         if (card.p.controller == 1)
         {
-            switch (r)  
+            switch (r)
             {
                 case cardRuleComdition.meUpAtk:
                     r = cardRuleComdition.opUpAtk;
@@ -7551,7 +7570,7 @@ public class Ocgcore : ServantWithCardDescription
                     break;
             }
         }
-        switch (r)  
+        switch (r)
         {
             case cardRuleComdition.meUpAtk:
                 return new Vector3(0, 0, 0);
@@ -7670,7 +7689,7 @@ public class Ocgcore : ServantWithCardDescription
     private void animation_count(TMPro.TextMeshPro textmesh, CardLocation location, int player)
     {
         int count = 0;
-        int countU = 0; 
+        int countU = 0;
         for (int i = 0; i < cards.Count; i++) if (cards[i].gameObject.activeInHierarchy)
             {
                 if (cards[i].p.controller == player)
@@ -7691,9 +7710,9 @@ public class Ocgcore : ServantWithCardDescription
         }
         else
         {
-            if (location== CardLocation.Extra)    
+            if (location == CardLocation.Extra)
             {
-                textmesh.text = count.ToString()+"("+ countU .ToString()+ ")";
+                textmesh.text = count.ToString() + "(" + countU.ToString() + ")";
             }
             else
             {
@@ -7706,7 +7725,7 @@ public class Ocgcore : ServantWithCardDescription
 
     float camera_min = -17.5f;
 
-    public void toNearest(bool fix=false)
+    public void toNearest(bool fix = false)
     {
         if (fix)
         {
@@ -7928,7 +7947,7 @@ public class Ocgcore : ServantWithCardDescription
                         {
                             if (card_from != null)
                             {
-                                GCS_cardRelocate(card_from,p2);
+                                GCS_cardRelocate(card_from, p2);
                             }
                         }
 
@@ -8001,7 +8020,7 @@ public class Ocgcore : ServantWithCardDescription
         {
             cardsInLocation.Insert((int)p2.sequence, card_from);
         }
-        for (int i = 0; i < cardsInLocation.Count; i++) 
+        for (int i = 0; i < cardsInLocation.Count; i++)
         {
             cardsInLocation[i].p.sequence = (uint)i;
         }
@@ -8156,13 +8175,15 @@ public class Ocgcore : ServantWithCardDescription
 
     enum duelResult
     {
-        disLink,win,lose,draw
+        disLink, win, lose, draw
     }
 
     duelResult result = duelResult.disLink;
 
     public override void show()
     {
+
+        Debug.Log("Show!!");
         if (isShowed == true)
         {
             Menu.deleteShell();
@@ -8170,18 +8191,34 @@ public class Ocgcore : ServantWithCardDescription
         base.show();
         Program.I().light.transform.eulerAngles = new Vector3(50, -50, 0);
         Program.cameraPosition = new Vector3(0, 23, -18.5f - 3.2f * (Program.fieldSize - 1f) / 0.21f);
-        Program.camera_game_main.transform.position = Program.cameraPosition*1.5f;
+        Program.camera_game_main.transform.position = Program.cameraPosition * 1.5f;
         Program.cameraRotation = new Vector3(60, 0, 0);
         Program.camera_game_main.transform.eulerAngles = Program.cameraRotation;
         Program.reMoveCam(getScreenCenter());
-        gameField = new GameField();    
+
+        // Init Vuforia, AR Camera. Disable main Camera
+        Program.camera_game_main.gameObject.SetActive(false);
+        Vuforia.VuforiaRuntime.Instance.InitVuforia();
+        Vuforia.CameraDevice.Instance.Start();
+        Program.camera_game_ar.transform.parent.gameObject.SetActive(true);
+
+        gameField = new GameField();
+
+
+
+        gameField.gameObject.transform.parent = Program.I().imagetargetField.transform;
+        Transform scale = gameField.gameObject.transform.Find("scale");
+        scale.localScale = new Vector3(0.003f, 0.003f, 0.003f);
+        scale.localEulerAngles = new Vector3(.0f, 90.0f, .0f);
+
+
         if (paused)
         {
             try
             {
                 EventDelegate.Execute(UIHelper.getByName<UIButton>(toolBar, "go_").onClick);
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 paused = false;
             }
@@ -8399,7 +8436,7 @@ public class Ocgcore : ServantWithCardDescription
         }
     }
 
-    private void GCS_swapALL(bool realized=true) 
+    private void GCS_swapALL(bool realized = true)
     {
         isFirst = !isFirst;
         for (int i = 0; i < cards.Count; i++)
@@ -8431,14 +8468,14 @@ public class Ocgcore : ServantWithCardDescription
 
     int theWorldIndex = 0;
 
-    public bool inTheWorld() 
+    public bool inTheWorld()
     {
         return currentMessageIndex < theWorldIndex;
     }
 
     public void sendReturn(byte[] buffer)
     {
-        if (paused) 
+        if (paused)
         {
             EventDelegate.Execute(UIHelper.getByName<UIButton>(toolBar, "go_").onClick);
         }
@@ -8447,7 +8484,7 @@ public class Ocgcore : ServantWithCardDescription
         {
             handler(buffer);
         }
-    }  
+    }
 
     List<sortResult> ES_sortCurrent = new List<sortResult>();
 
@@ -8692,7 +8729,7 @@ public class Ocgcore : ServantWithCardDescription
     public void ES_placeSelected(placeSelector data)
     {
         data.selected = !data.selected;
-        switch (currentMessage) 
+        switch (currentMessage)
         {
             case GameMessage.SelectPlace:
             case GameMessage.SelectDisfield:
@@ -8868,7 +8905,7 @@ public class Ocgcore : ServantWithCardDescription
             surrended = true;
             if (TcpHelper.tcpClient != null && TcpHelper.tcpClient.Connected)
             {
-                if (paused) 
+                if (paused)
                 {
                     EventDelegate.Execute(UIHelper.getByName<UIButton>(toolBar, "go_").onClick);
                 }
@@ -8926,7 +8963,8 @@ public class Ocgcore : ServantWithCardDescription
         return;
     }
 
-    void onSurrender() {
+    void onSurrender()
+    {
         if (Program.I().room.duelEnded == true || surrended || TcpHelper.tcpClient == null || TcpHelper.tcpClient.Connected == false || Program.I().room.needSide == true || condition != Condition.duel)
         {
             onDuelResultConfirmed();
@@ -8980,7 +9018,7 @@ public class Ocgcore : ServantWithCardDescription
 
 
     bool leftExcited = false;
-    public override void ES_mouseDownEmpty()    
+    public override void ES_mouseDownEmpty()
     {
         if (Program.I().setting.setting.spyer.value == false)
             if (gameInfo.queryHashedButton("hide_all_card") == false)
@@ -9024,7 +9062,7 @@ public class Ocgcore : ServantWithCardDescription
 
     public override void ES_mouseUpGameObject(GameObject gameObject)
     {
-        if (gameObject==gameInfo.instance_lab.gameObject)  
+        if (gameObject == gameInfo.instance_lab.gameObject)
         {
             ES_mouseUpEmpty();
             return;

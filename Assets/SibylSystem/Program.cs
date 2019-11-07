@@ -6,12 +6,14 @@ using System;
 using System.Linq;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
+using Vuforia;
 
 public class Program : MonoBehaviour
 {
 
     #region Resources
     public Camera main_camera;
+    public Camera ar_camera;
     public facer face;
     public Light light;
     public AudioSource audio;
@@ -141,6 +143,9 @@ public class Program : MonoBehaviour
     public GameObject New_winCaculator;
     public GameObject New_winCaculatorRecord;
     public GameObject New_ocgcore_placeSelector;
+    public GameObject imagetargetVirtualCard;
+    public GameObject imagetargetField;
+    public GameObject imagetargetDeck;
     public BGMController bgm;
     #endregion
 
@@ -265,6 +270,7 @@ public class Program : MonoBehaviour
     public static GameObject ui_container_3d = null;
     public static Camera camera_container_3d = null;
     public static Camera camera_game_main = null;
+    public static Camera camera_game_ar = null;
     public static GameObject ui_windows_2d = null;
     public static Camera camera_windows_2d = null;
     public static GameObject ui_main_2d = null;
@@ -288,6 +294,21 @@ public class Program : MonoBehaviour
 
     void initialize()
     {
+        IUnityPlayer unityPlayer = new NullUnityPlayer();
+        // instantiate the correct UnityPlayer for the current platform
+        if (Application.platform == RuntimePlatform.Android)
+            unityPlayer = new AndroidUnityPlayer();
+        else if (Application.platform == RuntimePlatform.IPhonePlayer)
+            unityPlayer = new IOSUnityPlayer();
+        else if (VuforiaRuntimeUtilities.IsPlayMode())
+            unityPlayer = new PlayModeUnityPlayer();
+        else if (VuforiaRuntimeUtilities.IsWSARuntime())
+        {
+            unityPlayer = new WSAUnityPlayer();
+        }
+
+        VuforiaRuntime.Instance.InitPlatform(unityPlayer);
+
         GAME_VERSION = PRO_VERSION();
 
 #if !UNITY_EDITOR && UNITY_ANDROID //Android
@@ -590,6 +611,11 @@ public class Program : MonoBehaviour
                 continue;
             }
             rayFilter |= (int)Math.Pow(2, i);
+        }
+
+        if (camera_game_ar == null)
+        {
+            camera_game_ar = ar_camera;
         }
 
         if (camera_game_main == null)
@@ -963,7 +989,7 @@ public class Program : MonoBehaviour
         {
             aiRoom.hide();
         }
-        if(to != roomList && to != selectServer && roomList.isShowed)
+        if (to != roomList && to != selectServer && roomList.isShowed)
         {
             roomList.hide();
         }
@@ -997,13 +1023,13 @@ public class Program : MonoBehaviour
 
     void Start()
     {
-        #if UNITY_EDITOR || UNITY_STANDALONE_WIN //编译器、Windows
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN //编译器、Windows
         if (Screen.width < 100 || Screen.height < 100)
         {
             Screen.SetResolution(1300, 700, false);
         }
         QualitySettings.vSyncCount = 0;
-        #elif !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IPHONE) //Android、iPhone
+#elif !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IPHONE) //Android、iPhone
         Screen.SetResolution(1280, 720, true);
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         Screen.orientation = ScreenOrientation.AutoRotation;
@@ -1011,7 +1037,7 @@ public class Program : MonoBehaviour
         Screen.autorotateToLandscapeRight = true;
         Screen.autorotateToPortrait = false;
         Screen.autorotateToPortraitUpsideDown = false;
-        #endif
+#endif
 
         mouseParticle = Instantiate(new_mouse);
         instance = this;
@@ -1043,13 +1069,13 @@ public class Program : MonoBehaviour
             StartCoroutine(OnScreenCapture());
         }
 
-        try { if (!setting.ShowFPS) { GUI.Label(new Rect(10, 5, 200, 200), "[Ver " + GAME_VERSION + "] FPS: " + FPS.ToString("000")); } } catch{}
+        try { if (!setting.ShowFPS) { GUI.Label(new Rect(10, 5, 200, 200), "[Ver " + GAME_VERSION + "] FPS: " + FPS.ToString("000")); } } catch { }
     }
 
     void Update()
     {
         FrameUpdate++;
-        if(Time.realtimeSinceStartup - LastUpdateShowTime >= UpdateShowDeltaTime)
+        if (Time.realtimeSinceStartup - LastUpdateShowTime >= UpdateShowDeltaTime)
         {
             FPS = FrameUpdate / (Time.realtimeSinceStartup - LastUpdateShowTime);
             FrameUpdate = 0;
@@ -1237,7 +1263,7 @@ public class Program : MonoBehaviour
             int width = Screen.width;
             int height = Screen.height;
             Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, false);
-            tex.ReadPixels (new Rect (0, 0, width, height), 0, 0, true);
+            tex.ReadPixels(new Rect(0, 0, width, height), 0, 0, true);
             byte[] imageBytes = tex.EncodeToPNG();
             tex.Compress(false);
             File.WriteAllBytes(imageName, imageBytes);
@@ -1256,7 +1282,7 @@ public class Program : MonoBehaviour
         List<string> file = new List<string>();
         file.AddRange(Directory.GetFiles(string.Concat(GAME_PATH, "updates/"), "*.txt", SearchOption.TopDirectoryOnly));
 
-        for(int i = 0; i < file.Count; i++)
+        for (int i = 0; i < file.Count; i++)
         {
             if (!lines.Contains(file[i]))
             {
