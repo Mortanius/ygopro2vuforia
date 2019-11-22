@@ -52,8 +52,9 @@ public class VirtualCardFrontBehaviour : MonoBehaviour {
     void Update()
     {
         // Enable / disable card selection
+        const float tolerance = 30;
         float rot = Mathf.Abs(180f - transform.eulerAngles[1]);
-        if (rot >= 90f - 30f && rot <= 90f + 30f)
+        if (rot >= 90 - tolerance && rot <= 90 + tolerance)
         {
             text.SetActive(true);
             //GetComponent<Collider>().enabled = true;

@@ -9,8 +9,11 @@ public class SetOnFieldTrigger : MonoBehaviour {
     void Start()
     {
         vCardFront = GameObject.Find("ImageTarget Virtual Card Front");
+        Debug.Assert(vCardFront != null);
         vCardFrontBhv = vCardFront.GetComponent<VirtualCardFrontBehaviour>();
-        selCardCollider = vCardFront.GetComponentInChildren<ColliderSelectCard>();
+        Debug.Assert(vCardFrontBhv != null);
+        //selCardCollider = vCardFront.GetComponentInChildren<ColliderSelectCard>();
+        selCardCollider = vCardFront.transform.Find("Selector").GetComponent<ColliderSelectCard>();
         Debug.Assert(selCardCollider != null);
     }
 

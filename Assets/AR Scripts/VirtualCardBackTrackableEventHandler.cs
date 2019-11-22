@@ -37,6 +37,10 @@ public class VirtualCardBackTrackableEventHandler : DefaultTrackableEventHandler
         base.OnTrackingLost();
         Debug.Log("LOST BACK");
         if (!started) return;
+        if (vCardFrontBhv.SelectedCard != null)
+        {
+            vCardFrontBhv.SelectedCard.SetActive(false);
+        }
         vCardBackBhv.enabled = false;
         //vCardFront.SetActive(true);
     }
