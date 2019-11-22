@@ -100,19 +100,19 @@ public class GameField : OCGobject
         gameHiddenButtons.Add(new gameHiddenButton(CardLocation.Grave, 1));
         gameHiddenButtons.Add(new gameHiddenButton(CardLocation.Removed, 1));
 
-        LOCATION_DECK_0 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0)).GetComponent<TMPro.TextMeshPro>();
-        LOCATION_EXTRA_0 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0)).GetComponent<TMPro.TextMeshPro>();
-        LOCATION_GRAVE_0 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0)).GetComponent<TMPro.TextMeshPro>();
-        LOCATION_REMOVED_0 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0)).GetComponent<TMPro.TextMeshPro>();
+        LOCATION_DECK_0 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0), false, Program.I().imagetargetField.transform.GetChild(0).gameObject).GetComponent<TMPro.TextMeshPro>();
+        LOCATION_EXTRA_0 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0), false, Program.I().imagetargetField.transform.GetChild(0).gameObject).GetComponent<TMPro.TextMeshPro>();
+        LOCATION_GRAVE_0 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0), false, Program.I().imagetargetField.transform.GetChild(0).gameObject).GetComponent<TMPro.TextMeshPro>();
+        LOCATION_REMOVED_0 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0), false, Program.I().imagetargetField.transform.GetChild(0).gameObject).GetComponent<TMPro.TextMeshPro>();
 
 
 
 
 
-        LOCATION_DECK_1 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0)).GetComponent<TMPro.TextMeshPro>();
-        LOCATION_EXTRA_1 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0)).GetComponent<TMPro.TextMeshPro>();
-        LOCATION_GRAVE_1 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0)).GetComponent<TMPro.TextMeshPro>();
-        LOCATION_REMOVED_1 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0)).GetComponent<TMPro.TextMeshPro>();
+        LOCATION_DECK_1 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0), false, Program.I().imagetargetField.transform.GetChild(0).gameObject).GetComponent<TMPro.TextMeshPro>();
+        LOCATION_EXTRA_1 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0), false, Program.I().imagetargetField.transform.GetChild(0).gameObject).GetComponent<TMPro.TextMeshPro>();
+        LOCATION_GRAVE_1 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0), false, Program.I().imagetargetField.transform.GetChild(0).gameObject).GetComponent<TMPro.TextMeshPro>();
+        LOCATION_REMOVED_1 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0), false, Program.I().imagetargetField.transform.GetChild(0).gameObject).GetComponent<TMPro.TextMeshPro>();
 
 
 

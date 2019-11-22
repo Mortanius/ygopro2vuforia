@@ -10,8 +10,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: YGOPro2
-  productName: YGOPro2
+  companyName: wmeds
+  productName: YGOPro2AR
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13333334, g: 0.17254902, b: 0.21176471, a: 1}
@@ -143,7 +143,7 @@ PlayerSettings:
   protectGraphicsMemory: 0
   useHDRDisplay: 0
   applicationIdentifier:
-    Android: com.ygopro2.ygopro2android
+    Android: com.wmeds.YGOPro2AR
     Standalone: cn.ygopro2.ygopro2android
     Tizen: cn.ygopro2.ygopro2android
     iOS: cn.ygopro2.ygopro2android
@@ -233,7 +233,7 @@ PlayerSettings:
   AndroidKeystoreName: ygopro.jks
   AndroidKeyaliasName: 
   AndroidTVCompatibility: 0
-  AndroidIsGame: 0
+  AndroidIsGame: 1
   androidEnableBanner: 1
   m_AndroidBanners:
   - width: 320

@@ -140,7 +140,6 @@ public class gameCard : OCGobject
         selectKuang.SetActive(false);
         chainKuang.SetActive(false);
         gameObject.SetActive(false);
-
     }
 
     public bool forceRefreshCondition = false;
@@ -1786,10 +1785,11 @@ public class gameCard : OCGobject
 
     #region button
 
-    List<gameButton> buttons = new List<gameButton>();
+    public List<gameButton> buttons = new List<gameButton>();
 
     public void add_one_button(gameButton b)    
     {
+        Debug.Log("Adding button " + b.hint);
         b.cookieCard = this;
         buttons.Add(b);
     }

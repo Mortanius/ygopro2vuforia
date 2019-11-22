@@ -143,9 +143,9 @@ public class Program : MonoBehaviour
     public GameObject New_winCaculator;
     public GameObject New_winCaculatorRecord;
     public GameObject New_ocgcore_placeSelector;
-    public GameObject imagetargetVirtualCard;
+    public GameObject imagetargetVirtualCardFront;
     public GameObject imagetargetField;
-    public GameObject imagetargetDeck;
+    public GameObject imagetargetVirtualCardBack;
     public BGMController bgm;
     #endregion
 

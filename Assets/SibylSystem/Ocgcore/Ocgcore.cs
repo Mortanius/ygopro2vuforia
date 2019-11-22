@@ -412,6 +412,7 @@ public class Ocgcore : ServantWithCardDescription
         UIHelper.InterGameObject(gameInfo.gameObject);
         shiftCondition(Condition.duel);
 
+
         Program.go(1, () =>
         {
             MHS_creatBundle(60, localPlayer(0), CardLocation.Deck);
@@ -756,12 +757,17 @@ public class Ocgcore : ServantWithCardDescription
         TcpHelper.SaveRecord();
         if (returnServant != null)
         {
-            Debug.Log("Goodbye!!");
-
             Vuforia.CameraDevice.Instance.Stop();
             Program.camera_game_ar.transform.parent.gameObject.SetActive(false);
             Program.camera_game_main.gameObject.SetActive(true);
             //            Vuforia.VuforiaRuntime.Instance.Deinit();
+
+            Transform ui = gameInfo.transform.parent;
+            ui.GetChild(1).gameObject.SetActive(true);
+            ui.GetChild(2).gameObject.SetActive(true);
+            ui.GetChild(3).gameObject.SetActive(true);
+            Camera cam = ui.GetChild(0).GetComponent<Camera>();
+            cam.depth = -2;
 
             Program.I().shiftToServant(returnServant);
         }
@@ -7767,6 +7773,8 @@ public class Ocgcore : ServantWithCardDescription
         c.p = p;
         c.controllerBased = p.controller;
         md5Maker++;
+        c.gameObject.transform.parent = Program.I().imagetargetField.transform.GetChild(1);
+        //c.gameObject.transform.localScale = Program.I().imagetargetField.transform.GetChild(0).localScale;
         return c;
     }
 
@@ -8183,7 +8191,6 @@ public class Ocgcore : ServantWithCardDescription
     public override void show()
     {
 
-        Debug.Log("Show!!");
         if (isShowed == true)
         {
             Menu.deleteShell();
@@ -8205,12 +8212,19 @@ public class Ocgcore : ServantWithCardDescription
         gameField = new GameField();
 
 
+        // TODO Set parent inside GameField constructor instead
+        gameField.gameObject.transform.parent = Program.I().imagetargetField.transform.GetChild(0);
+        //Transform scale = gameField.gameObject.transform.Find("scale");
+        //scale.localScale = new Vector3(0.003f, 0.003f, 0.003f);
+        //scale.localEulerAngles = new Vector3(.0f, 90.0f, .0f);
 
-        gameField.gameObject.transform.parent = Program.I().imagetargetField.transform;
-        Transform scale = gameField.gameObject.transform.Find("scale");
-        scale.localScale = new Vector3(0.003f, 0.003f, 0.003f);
-        scale.localEulerAngles = new Vector3(.0f, 90.0f, .0f);
-
+        // Show gameInfo but hide anything else
+        Transform ui = gameInfo.transform.parent;
+        ui.GetChild(1).gameObject.SetActive(false);
+        ui.GetChild(2).gameObject.SetActive(false);
+        ui.GetChild(3).gameObject.SetActive(false);
+        Camera cam = ui.GetChild(0).GetComponent<Camera>();
+        cam.depth = 1;
 
         if (paused)
         {
