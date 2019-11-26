@@ -56,7 +56,7 @@ public class ColliderSelectCard : MonoBehaviour {
                     foreach (gameButton b in cards[i].buttons)
                     {
                         Debug.Log("button " + b.hint);
-                        if (b.hint == InterString.Get("通常召唤@ui") || b.hint == InterString.Get("灵摆发动@ui"))
+                        if (b.hint == InterString.Get("通常召唤@ui") || b.hint == InterString.Get("发动效果@ui"))
                         {
                             Debug.Log("Adding Summon or Activate button");
                             vCardFront.summonOrActivateBtn = b;
