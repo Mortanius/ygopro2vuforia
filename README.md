@@ -1,3 +1,16 @@
+# ygopro v2 in Unity with Augmented Reality using Vuforia
+
+This branch was created in order to implement an Augmented Reality interface, using the core implementation of ygopro v2 in Unity (a Card Game in AR).
+This feature was designed for learning purposes as a final project for a school subject (Virtual and Mixed Reality, on a Computer Science course).
+The feature has been developed by using the Vuforia Augmented Reality SDK (along with the Unity Game Engine which the original project already used).
+
+The original GitHub repository is located at https://github.com/lllyasviel/YGOProUnity_V2, but this repository was cloned from another that made compiling to Android possible.
+
+# Current implementation capabilities
+- Rendering the game field on an image target.
+- A "virtual" card: a game objected consisting of two image targets (front and back). It is used to select a card in possession and place it on the field.
+- The rest of the gameplay mechanics is yet to be thought out to work with AR.
+
 # You have just found ygopro v2 in Unity 3D!
 
 YGOPro v2 is a card simulation game created in Unity Engine, with same protocol to ygopro.
